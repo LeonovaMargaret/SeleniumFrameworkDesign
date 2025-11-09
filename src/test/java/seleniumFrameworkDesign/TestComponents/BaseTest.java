@@ -24,12 +24,14 @@ import org.openqa.selenium.firefox.FirefoxOptions;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 
+import seleniumFrameworkDesign.data.DataReader;
 import seleniumFrameworkDesign.pageobjects.LandingPage;
 import tools.jackson.core.type.TypeReference;
 import tools.jackson.databind.ObjectMapper;
 
 public class BaseTest
 {
+	public DataReader dataReader = new DataReader();
 
 	public WebDriver driver = null;
 	public LandingPage landingPage;
@@ -80,10 +82,13 @@ public class BaseTest
 
 	public List<HashMap<String, String>> getJsonDataToMap(String filePath) throws IOException
 	{
-		String jsonContent = FileUtils.readFileToString(new File(System.getProperty("user.dir") + filePath), StandardCharsets.UTF_8);
-
-		ObjectMapper mapper = new ObjectMapper();
-		List<HashMap<String, String>> data = mapper.readValue(jsonContent, new TypeReference<List<HashMap<String, String>>>(){});
+		List<HashMap<String, String>> data = dataReader.getJsonDataToMap(filePath);
+		return data;
+	}
+	
+	public Object[][] getExcelDataToObject(String filePath) throws IOException
+	{
+		Object[][] data = dataReader.getExcelDataToObject(filePath);
 		return data;
 	}
 

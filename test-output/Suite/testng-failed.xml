@@ -8,11 +8,23 @@
     <classes>
       <class name="seleniumFrameworkDesign.tests.ErrorValidationsTest">
         <methods>
-          <include name="loginWrongPassword"/>
           <include name="tearDown"/>
           <include name="launchApplication"/>
+          <include name="productErrorValidation"/>
         </methods>
       </class> <!-- seleniumFrameworkDesign.tests.ErrorValidationsTest -->
     </classes>
   </test> <!-- Error Validations Test(failed) -->
+  <test thread-count="5" parallel="tests" name="Submit Order Test(failed)">
+    <classes>
+      <class name="seleniumFrameworkDesign.tests.SubmitOrderTest">
+        <methods>
+          <include name="orderHistoryTest"/>
+          <include name="tearDown"/>
+          <include name="launchApplication"/>
+          <include name="submitOrder" invocation-numbers="0 1"/>
+        </methods>
+      </class> <!-- seleniumFrameworkDesign.tests.SubmitOrderTest -->
+    </classes>
+  </test> <!-- Submit Order Test(failed) -->
 </suite> <!-- Failed suite [Suite] -->

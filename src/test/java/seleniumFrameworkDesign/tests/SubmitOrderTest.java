@@ -27,9 +27,9 @@ import org.openqa.selenium.WebElement;
 
 public class SubmitOrderTest extends BaseTest {
 
-	String productName = "ZARA COAT 3";
+	//String productName = "ZARA COAT 3";
 	
-	@Test(dataProvider = "getData")
+	@Test(dataProvider = "getJsonData")
 	public void submitOrder(HashMap<String,String> input) throws IOException, InterruptedException
 	{
 		String countryName = "India";
@@ -49,19 +49,26 @@ public class SubmitOrderTest extends BaseTest {
 		Assert.assertTrue(confirmMessage.equalsIgnoreCase(thankYouForTheOrder));
 	}
 	
-	@Test(dependsOnMethods= {"submitOrder"})
-	public void orderHistoryTest() throws InterruptedException
+	@Test(dependsOnMethods= {"submitOrder"}, dataProvider = "getExcelData")
+	public void orderHistoryTest(String email, String password, String productName) throws InterruptedException
 	{	
-		ProductCatalogue productCatalogue = landingPage.loginApplication("marharyta@gmail.com", "MyTest123");
+		ProductCatalogue productCatalogue = landingPage.loginApplication(email, password);
 		OrdersPage ordersPage = productCatalogue.goToOrdersPage();
 		Assert.assertTrue(ordersPage.isInOrder(productName));
 	}
 	
 	@DataProvider
-	public Object[][] getData() throws IOException
+	public Object[][] getJsonData() throws IOException
 	{
 		List<HashMap<String,String>> data = getJsonDataToMap("\\src\\test\\java\\seleniumFrameworkDesign\\data\\PurchaseOrder.json");
 		return new Object[][] {{data.get(0)}, {data.get(1)}};
+	}
+	
+	@DataProvider
+	public Object[][] getExcelData() throws IOException
+	{
+		Object[][] data = getExcelDataToObject("\\src\\test\\java\\seleniumFrameworkDesign\\data\\orderHistoryTest.xlsx");
+		return data;
 	}
 
 }
